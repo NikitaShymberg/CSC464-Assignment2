@@ -21,6 +21,7 @@ type message struct {
 
 func (vc *vectorClock) localEvent() {
 	vc.times[vc.owner]++
+	fmt.Printf("%v -L- %v\n", vc.owner, vc.times)
 }
 
 func (vc *vectorClock) sendMessage(data string, dest chan message) {
@@ -29,7 +30,7 @@ func (vc *vectorClock) sendMessage(data string, dest chan message) {
 	m.data = data
 	m.clock = *vc
 
-	fmt.Printf("Sending message message %v ...\n", m.data)
+	fmt.Printf("%v -S- %v\n", vc.owner, vc.times)
 	dest <- m
 }
 
@@ -40,17 +41,17 @@ func (vc *vectorClock) receiveMessage(src chan message) {
 			vc.times[i] = v
 		}
 	}
-	fmt.Printf("Received message %v\n", m.data)
+	vc.times[vc.owner]++
+	fmt.Printf("%v -R- %v\n", vc.owner, vc.times)
 }
 
 func a(toB chan message, toC chan message, out chan vectorClock) {
 	var myClock vectorClock
 	myClock.owner = 0
 
-	myClock.localEvent()
+	// E.g. 1
 	myClock.sendMessage("Hello!", toB)
-	myClock.localEvent()
-	myClock.receiveMessage(toC)
+	myClock.receiveMessage(toB)
 
 	out <- myClock
 }
@@ -59,10 +60,9 @@ func b(toA chan message, toC chan message, out chan vectorClock) {
 	var myClock vectorClock
 	myClock.owner = 1
 
+	// E.g. 1
 	myClock.receiveMessage(toA)
-	myClock.sendMessage("World!", toC)
-	myClock.localEvent()
-	myClock.localEvent()
+	myClock.sendMessage("World!", toA)
 
 	out <- myClock
 }
@@ -71,11 +71,10 @@ func c(toA chan message, toB chan message, out chan vectorClock) {
 	var myClock vectorClock
 	myClock.owner = 2
 
+	// E.g. 1
 	myClock.localEvent()
 	myClock.localEvent()
-	myClock.receiveMessage(toB)
 	myClock.localEvent()
-	myClock.sendMessage("Star", toA)
 	myClock.localEvent()
 
 	out <- myClock
@@ -97,6 +96,7 @@ func main() {
 		finalClocks = append(finalClocks, <-results)
 	}
 
+	fmt.Println("Final clocks")
 	for _, clock := range finalClocks {
 		fmt.Printf("Owner %v, clock %v\n", clock.owner, clock.times)
 	}

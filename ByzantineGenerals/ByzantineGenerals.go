@@ -115,7 +115,7 @@ func main() {
 		lieutenants = append(lieutenants, general{ID: i + 1, allegiance: v, channels: channels})
 	}
 
-	// Add channes to the other lieutenants
+	// Add channels to the other lieutenants
 	for i := range lieutenants {
 		for j := i; j < len(lieutenants); j++ {
 			newChan := make(chan string)
@@ -144,9 +144,9 @@ func main() {
 	// Step 2
 	for i := 0; i < m; i++ {
 		for j := range lieutenants {
-			// go func(g general) {
-			lieutenants[j].sendOrder()
-			// }(lieutenants[j])
+			go func(g general) {
+				lieutenants[j].sendOrder()
+			}(lieutenants[j])
 
 			for k := range lieutenants {
 				if k != j {
@@ -176,7 +176,7 @@ func main() {
 
 	for _, g := range lieutenants {
 		if g.allegiance == "A" {
-			fmt.Printf("The loayal lieutenant %v's order: %v\n", g.ID, g.order)
+			fmt.Printf("The loyal lieutenant %v's order: %v\n", g.ID, g.order)
 		}
 	}
 

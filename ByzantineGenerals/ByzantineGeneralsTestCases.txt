@@ -1,0 +1,52 @@
+$go run ByzantineGenerals.go 0 A A A A A ATTACK
+
+The loyal lieutenant 1's order: ATTACK
+The loyal lieutenant 2's order: ATTACK
+The loyal lieutenant 3's order: ATTACK
+The loyal lieutenant 4's order: ATTACK
+
+$go run ByzantineGenerals.go 1 A A A A T A ATTACK
+
+The loyal lieutenant 1's order: ATTACK
+The loyal lieutenant 2's order: ATTACK
+The loyal lieutenant 3's order: ATTACK
+The loyal lieutenant 5's order: ATTACK
+
+$go run ByzantineGenerals.go 1 T A A A A ATTACK
+
+The loyal lieutenant 1's order: RETREAT
+The loyal lieutenant 2's order: RETREAT
+The loyal lieutenant 3's order: RETREAT
+The loyal lieutenant 4's order: RETREAT
+
+$go run ByzantineGenerals.go 2 A T T A A A ATTACK
+
+The loyal lieutenant 3's order: ATTACK
+The loyal lieutenant 4's order: ATTACK
+The loyal lieutenant 5's order: ATTACK
+
+$go run ByzantineGenerals.go 5 T T T T T A A A A A A A A A A ATTACK
+
+The loyal lieutenant 5's order: RETREAT
+The loyal lieutenant 6's order: RETREAT
+The loyal lieutenant 7's order: RETREAT
+The loyal lieutenant 8's order: RETREAT
+The loyal lieutenant 9's order: RETREAT
+The loyal lieutenant 10's order: RETREAT
+The loyal lieutenant 11's order: RETREAT
+The loyal lieutenant 12's order: RETREAT
+The loyal lieutenant 13's order: RETREAT
+The loyal lieutenant 14's order: RETREAT
+
+$ go run ByzantineGenerals.go 4 A T T T T A A A A A A A A A A ATTACK
+
+The loyal lieutenant 5's order: ATTACK
+The loyal lieutenant 6's order: ATTACK
+The loyal lieutenant 7's order: ATTACK
+The loyal lieutenant 8's order: ATTACK
+The loyal lieutenant 9's order: ATTACK
+The loyal lieutenant 10's order: ATTACK
+The loyal lieutenant 11's order: ATTACK
+The loyal lieutenant 12's order: ATTACK
+The loyal lieutenant 13's order: ATTACK
+The loyal lieutenant 14's order: ATTACK
