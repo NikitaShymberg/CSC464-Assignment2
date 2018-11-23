@@ -17,9 +17,7 @@ type general struct {
 }
 
 func (g *general) receiveOrder(n int) {
-	// fmt.Printf("%v is waiting for order from %v\n", g.ID, n)
 	g.order = <-g.channels[n]
-	// fmt.Printf("%v RECEIVED order from %v\n", g.ID, n)
 	g.receivedOrders = append(g.receivedOrders, g.order)
 }
 
@@ -27,9 +25,7 @@ func (g *general) sendOrder() {
 	if g.allegiance == "A" {
 		for i, c := range g.channels {
 			go func(c chan string, i int) {
-				// fmt.Printf("%v sending to %v\n", g.ID, i)
 				c <- g.order
-				// fmt.Printf("%v SENT to %v\n", g.ID, i)
 			}(c, i)
 		}
 	} else {
@@ -74,7 +70,7 @@ func (g *general) finalizeOrder() {
 func main() {
 	var m int
 	var commanderAllegiance string
-	var generalAlliances []string // TODO: rename me I'm only the input
+	var generalAlliances []string
 	var order string
 
 	m, err := strconv.Atoi(os.Args[1])
@@ -119,8 +115,6 @@ func main() {
 	for i := range lieutenants {
 		for j := i; j < len(lieutenants); j++ {
 			newChan := make(chan string)
-			// lieutenants[i].channels = append(lieutenants[i].channels, newChan)
-			// lieutenants[j].channels = append(lieutenants[j].channels, newChan)
 			lieutenants[i].channels[lieutenants[j].ID] = newChan
 			lieutenants[j].channels[lieutenants[i].ID] = newChan
 		}
@@ -152,14 +146,10 @@ func main() {
 				if k != j {
 					updatedGeneral := make(chan general)
 					go func(g general, from int) {
-						// fmt.Printf("S %v .... %v\n", g.ID, from)
 						g.receiveOrder(from)
-						// fmt.Printf("F %v .... %v\n", g.ID, from)
 						updatedGeneral <- g
 					}(lieutenants[k], lieutenants[j].ID)
-					// go func(lieutenants []general, k int) {
 					lieutenants[k] = <-updatedGeneral
-					// }(lieutenants, k)
 				}
 			}
 		}
